@@ -17,6 +17,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('candidates', 'CandidatesController');
+
 Route::get('/hello', function (){
     return 'Hello Larevel';
 }); 
@@ -38,6 +40,30 @@ Route::get('/car/{id?}', function ($id  = null){
 Route::get('/comment/{id}', function ($id) {
     return view('comment', compact('id'));
 });
+
+Route::get('/users/{email}/{name?}', function ($email,$name = null) {
+    if(!isset($name)){
+        $name = 'Mising name';
+    }
+    return view('users', compact('email','name'));
+});
+
+
+
+
+#example
+Route::get('/users1/{name?}/{email}', function ($name = null, $email) {
+    if(!isset($name)){
+        $name = 'Mising name';
+    }
+    return view('users', compact('email','name'));
+});
+
+
+
+
+
+
 
 
 
