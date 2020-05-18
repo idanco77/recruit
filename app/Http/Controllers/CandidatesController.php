@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Candidate;
 
 // full name is "App\Http\Controllers\CandidatesController"; 
 class CandidatesController extends Controller
@@ -13,8 +14,9 @@ class CandidatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('candidates.index');
+    {        
+        $candidates = Candidate::all();
+        return view('candidates.index', compact('candidates'));
     }
 
     /**
@@ -24,7 +26,7 @@ class CandidatesController extends Controller
      */
     public function create()
     {
-        //
+        return view('candidates.create');
     }
 
     /**
@@ -35,7 +37,11 @@ class CandidatesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $candidate = new Candidate();
+        $candidate->name = $request->name; 
+        $candidate->email = $request->email;
+        $candidate->save();
+        return redirect('candidates');
     }
 
     /**
@@ -57,7 +63,8 @@ class CandidatesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $candidate = Candidate::findOrFail($id);
+        return view('candidates.edit');
     }
 
     /**
@@ -69,8 +76,12 @@ class CandidatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       $candidate = Candidate::findOrFail($id);
+       $candidate->update($request);
+       return redirect('candidates');  
     }
+
+    
 
     /**
      * Remove the specified resource from storage.

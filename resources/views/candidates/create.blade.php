@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Comment</title>
+        <title>Create candidate</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -63,25 +63,21 @@
             }
         </style>
     </head>
-    <body>
-                   
-                    <div><a href =  "{{url('/candidates/create')}}"> Add new candidate</a></div>
-                    <h1>List of candidates</h1>
-                    <table>
-                        <tr>
-                            <th>id</th><th>Name</th><th>Email</th><th>Created</th><th>Updated</th>
-                        </tr>
-                        <!-- the table data -->
-                        @foreach($candidates as $candidate)
-                            <tr>
-                                <td>{{$candidate->id}}</td>
-                                <td>{{$candidate->name}}</td>
-                                <td>{{$candidate->email}}</td>
-                                <td>{{$candidate->created_at}}</td>
-                                <td>{{$candidate->updated_at}}</td>
-                            </tr>
-                        @endforeach
-                    </table>
-
+    <body>               
+        <h1>Create candidate</h1>
+        <form method = "post" action = "{{action('CandidatesController@store')}}">
+        @csrf 
+        <div>
+            <label for = "name">Candiadte name</label>
+            <input type = "text" name = "name">
+        </div>     
+        <div>
+            <label for = "email">Candiadte email</label>
+            <input type = "text" name = "email">
+        </div> 
+        <div>
+            <input type = "submit" name = "submit" value = "Create candidate">
+        </div>                       
+        </form>    
     </body>
 </html>
