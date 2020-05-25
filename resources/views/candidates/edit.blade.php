@@ -66,7 +66,8 @@
     <body>               
         <h1>Edit candidate</h1>
         <form method = "post" action = "{{action('CandidatesController@update',$candidate->id)}}">
-        @csrf 
+        @csrf
+        @METHOD('PATCH')
         <div>
             <label for = "name">Candiadte name</label>
             <input type = "text" name = "name" value = {{$candidate->name}}>

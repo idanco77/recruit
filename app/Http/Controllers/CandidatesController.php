@@ -38,9 +38,9 @@ class CandidatesController extends Controller
     public function store(Request $request)
     {
         $candidate = new Candidate();
-        $candidate->name = $request->name; 
-        $candidate->email = $request->email;
-        $candidate->save();
+        //$candidate->name = $request->name; 
+        //$candidate->email = $request->email;
+        $candidate->create($request->all());
         return redirect('candidates');
     }
 
@@ -64,7 +64,7 @@ class CandidatesController extends Controller
     public function edit($id)
     {
         $candidate = Candidate::findOrFail($id);
-        return view('candidates.edit');
+        return view('candidates.edit', compact('candidate'));
     }
 
     /**
@@ -77,7 +77,7 @@ class CandidatesController extends Controller
     public function update(Request $request, $id)
     {
        $candidate = Candidate::findOrFail($id);
-       $candidate->update($request);
+       $candidate->update($request->all());
        return redirect('candidates');  
     }
 
@@ -91,6 +91,8 @@ class CandidatesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $candidate = Candidate::findOrFail($id);
+        $candidate->delete(); 
+        return redirect('candidates'); 
     }
 }

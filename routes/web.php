@@ -17,7 +17,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('candidates', 'CandidatesController');
+Route::resource('candidates', 'CandidatesController')->middleware('auth');
+
+Route::get('candidates/delete/{id}', 'CandidatesController@destroy')->name('candidate.delete');
 
 Route::get('/hello', function (){
     return 'Hello Larevel';
@@ -80,3 +82,7 @@ Route::get('/users1/{name?}/{email}', function ($name = null, $email) {
 
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
