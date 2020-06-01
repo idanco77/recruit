@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Candidate;
+use App\User;
 
 // full name is "App\Http\Controllers\CandidatesController"; 
 class CandidatesController extends Controller
@@ -16,8 +17,17 @@ class CandidatesController extends Controller
     public function index()
     {        
         $candidates = Candidate::all();
-        return view('candidates.index', compact('candidates'));
+        $users = User::all();
+        return view('candidates.index', compact('candidates','users'));
     }
+
+    public function changeUser($cid, $uid = null){
+        $candidate = Candidate::findOrFail($cid);
+        $candidate->user_id = $uid;
+        $candidate->save(); 
+        return redirect('candidates');
+    }
+
 
     /**
      * Show the form for creating a new resource.
