@@ -8,7 +8,7 @@
 <h1>List of candidates</h1>
 <table class = "table table-dark">
     <tr>
-        <th>id</th><th>Name</th><th>Email</th><th>Owner</th><th>Created</th><th>Updated</th>
+        <th>id</th><th>Name</th><th>Email</th><th>Owner</th><th>Status</th><th>Created</th><th>Updated</th>
     </tr>
     <!-- the table data -->
     @foreach($candidates as $candidate)
@@ -32,6 +32,24 @@
                     </div>
                   </div>                
             </td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @if (isset($candidate->status_id))
+                           {{$candidate->status->name}}
+                        @else
+                            Define status
+                        @endif
+                    </button>                               
+                    @if (App\Status::next($candidate->status_id) != null )
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        @foreach(App\Status::next($candidate->status_id) as $status)
+                         <a class="dropdown-item" href="{{route('candidates.changestatus', [$candidate->id,$status->id])}}">{{$status->name}}</a>
+                        @endforeach                               
+                    </div>
+                    @endif
+                </div>                            
+            </td>                             
             <td>{{$candidate->created_at}}</td>
             <td>{{$candidate->updated_at}}</td>
             <td>

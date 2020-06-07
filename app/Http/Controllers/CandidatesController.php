@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Candidate;
 use App\User;
+use App\Status;
 
 // full name is "App\Http\Controllers\CandidatesController"; 
 class CandidatesController extends Controller
@@ -18,7 +19,8 @@ class CandidatesController extends Controller
     {        
         $candidates = Candidate::all();
         $users = User::all();
-        return view('candidates.index', compact('candidates','users'));
+        $statuses = Status::all();        
+        return view('candidates.index', compact('candidates','users', 'statuses'));
     }
 
     public function changeUser($cid, $uid = null){
@@ -27,6 +29,14 @@ class CandidatesController extends Controller
         $candidate->save(); 
         return redirect('candidates');
     }
+
+    public function changeStatus($cid, $sid)
+    {
+        $candidate = Candidate::findOrFail($cid);
+        $candidate->status_id = $sid;
+        $candidate->save();
+        return redirect('candidates');
+    }          
 
 
     /**
@@ -50,7 +60,9 @@ class CandidatesController extends Controller
         $candidate = new Candidate();
         //$candidate->name = $request->name; 
         //$candidate->email = $request->email;
-        $candidate->create($request->all());
+        $can = $candidate->create($request->all());
+        $can->status_id = 1;
+        $can->save();
         return redirect('candidates');
     }
 

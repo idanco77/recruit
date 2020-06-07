@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::resource('candidates', 'CandidatesController')->middleware('auth');
 Route::get('candidates/changeuser/{cid}/{uid?}', 'CandidatesController@changeUser')->name('candidate.changeuser');
+Route::get('candidates/changestatus/{cid}/{sid}', 'CandidatesController@changeStatus')->name('candidates.changestatus')->middleware('auth');
 
 Route::get('candidates/delete/{id}', 'CandidatesController@destroy')->name('candidate.delete');
 
