@@ -17,4 +17,10 @@ class Status extends Model
         return self::find($nextstages)->all(); 
     }
 
+    public static function allowed($from,$to){
+        $allowed = DB::table('nextstages')->where('from',$from)->where('to',$to)->get();
+        if(isset($allowed)) return true;
+        return false;
+    }
+
 }

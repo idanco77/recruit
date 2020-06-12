@@ -33,6 +33,8 @@ class CandidatesController extends Controller
     public function changeStatus($cid, $sid)
     {
         $candidate = Candidate::findOrFail($cid);
+        $from = $candidate->status->id;
+        if(!Status::allowed($from,$sid)) return redirect('candidates');        
         $candidate->status_id = $sid;
         $candidate->save();
         return redirect('candidates');
