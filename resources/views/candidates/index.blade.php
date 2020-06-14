@@ -34,13 +34,18 @@
             </td>
             <td>
                 <div class="dropdown">
+                    @if (null != App\Status::next($candidate->status_id))    
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @if (isset($candidate->status_id))
                            {{$candidate->status->name}}
                         @else
                             Define status
                         @endif
-                    </button>                               
+                    </button>
+                    @else 
+                    {{$candidate->status->name}}
+                    @endif
+                                                   
                     @if (App\Status::next($candidate->status_id) != null )
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         @foreach(App\Status::next($candidate->status_id) as $status)

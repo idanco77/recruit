@@ -16,12 +16,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','department_id',
     ];
 
     public function candidates(){
         return $this->hasMany('App\Candidate');
     }
+
+    public function department(){
+        return $this->belongsTo('App\Department');
+    }    
 
 
     /**

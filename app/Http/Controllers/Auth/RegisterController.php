@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Department;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -22,7 +23,18 @@ class RegisterController extends Controller
     |
     */
 
+
+    //need to overide the function showRegistrationForm() if this trait
     use RegistersUsers;
+
+    //override show registration form 
+    //from the RegistersUsers trait 
+
+    public function showRegistrationForm()
+    {
+        $departments = Department::all();
+        return view('auth.register', compact('departments'));
+    }
 
     /**
      * Where to redirect users after registration.
@@ -68,6 +80,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'department_id' => $data['department_id'],
         ]);
     }
 }

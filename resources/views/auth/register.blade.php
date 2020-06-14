@@ -61,6 +61,19 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="department_id" class="col-md-4 col-form-label text-md-right">Department</label>
+                            <div class="col-md-6">
+                                <select class="form-control" name="department_id">                                                                         
+                                   @foreach ($departments as $department)
+                                     <option value="{{ $department->id }}"> 
+                                         {{ $department->name }} 
+                                     </option>
+                                   @endforeach    
+                                 </select>
+                            </div>
+                        </div>
+                        
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
