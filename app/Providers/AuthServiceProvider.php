@@ -25,6 +25,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::define('change-status', function ($user, $candidate) {
+            return $user->id === $candidate->user_id;
+        });
+
+        Gate::define('assign-user', function ($user) {
+            return $user->isManager();
+        });        
+
         //
     }
 }

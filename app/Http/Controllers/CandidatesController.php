@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use App\Candidate;
 use App\User;
 use App\Status;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Session;
+
+
 
 // full name is "App\Http\Controllers\CandidatesController"; 
 class CandidatesController extends Controller
@@ -23,21 +28,42 @@ class CandidatesController extends Controller
         return view('candidates.index', compact('candidates','users', 'statuses'));
     }
 
+    public function myCandidates()
+    {        
+        $userId = Auth::id();
+        $user = User::findOrFail($userId);
+        $candidates = $user->candidates;
+        //$candidates = Candidate::all();
+        $users = User::all();
+        $statuses = Status::all();        
+        return view('candidates.index', compact('candidates','users', 'statuses'));
+    }
+
+    
+
     public function changeUser($cid, $uid = null){
+        Gate::authorize('assign-user');
         $candidate = Candidate::findOrFail($cid);
         $candidate->user_id = $uid;
         $candidate->save(); 
-        return redirect('candidates');
+        return back();
+        //return redirect('candidates');
     }
 
     public function changeStatus($cid, $sid)
     {
         $candidate = Candidate::findOrFail($cid);
-        $from = $candidate->status->id;
-        if(!Status::allowed($from,$sid)) return redirect('candidates');        
-        $candidate->status_id = $sid;
-        $candidate->save();
-        return redirect('candidates');
+        if(Gate::allows('change-status', $candidate))
+        {
+            $from = $candidate->status->id;
+            if(!Status::allowed($from,$sid)) return redirect('candidates');        
+            $candidate->status_id = $sid;
+            $candidate->save();
+        }else{
+            Session::flash('notallowed', 'You are not allowed to change the status of the user becuase you are not the owner of the user');
+        }
+        return back();
+        //return redirect('candidates');
     }          
 
 

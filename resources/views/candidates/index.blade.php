@@ -3,7 +3,11 @@
 @section('title', 'Candidates')
 
 @section('content')
-                   
+@if(Session::has('notallowed'))
+<div class = 'alert alert-danger'>
+    {{Session::get('notallowed')}}
+</div>
+@endif
 <div><a href =  "{{url('/candidates/create')}}"> Add new candidate</a></div>
 <h1>List of candidates</h1>
 <table class = "table table-dark">

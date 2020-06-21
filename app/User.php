@@ -25,7 +25,30 @@ class User extends Authenticatable
 
     public function department(){
         return $this->belongsTo('App\Department');
+    }  
+    
+    public function roles(){
+        return $this->belongsToMany('App\Role','userroles');        
     }    
+    
+    public function isAdmin(){
+        $roles = $this->roles;
+        if(!isset($roles)) return false;
+        foreach($roles as $role){
+            if($role->name === 'admin') return true; 
+        } 
+        return false; 
+    }
+
+    public function isManager(){
+        $roles = $this->roles;
+        if(!isset($roles)) return false;
+        foreach($roles as $role){
+            if($role->name === 'manager') return true; 
+        } 
+        return false; 
+    }
+
 
 
     /**
