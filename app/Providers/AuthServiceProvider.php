@@ -31,8 +31,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('assign-user', function ($user) {
             return $user->isManager();
-        });        
+        });
 
-        //
+        //gg
     }
 }
