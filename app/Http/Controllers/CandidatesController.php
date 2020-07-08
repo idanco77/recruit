@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 
 
 
-// full name is "App\Http\Controllers\CandidatesController"; 
+// full name is "App\Http\Controllers\CandidatesController";
 class CandidatesController extends Controller
 {
     /**
@@ -21,31 +21,31 @@ class CandidatesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {        
+    {
         $candidates = Candidate::all();
         $users = User::all();
-        $statuses = Status::all();        
+        $statuses = Status::all();
         return view('candidates.index', compact('candidates','users', 'statuses'));
     }
 
     public function myCandidates()
-    {        
+    {
         $userId = Auth::id();
         $user = User::findOrFail($userId);
         $candidates = $user->candidates;
         //$candidates = Candidate::all();
         $users = User::all();
-        $statuses = Status::all();        
+        $statuses = Status::all();
         return view('candidates.index', compact('candidates','users', 'statuses'));
     }
 
-    
+
 
     public function changeUser($cid, $uid = null){
         Gate::authorize('assign-user');
         $candidate = Candidate::findOrFail($cid);
         $candidate->user_id = $uid;
-        $candidate->save(); 
+        $candidate->save();
         return back();
         //return redirect('candidates');
     }
@@ -56,7 +56,7 @@ class CandidatesController extends Controller
         if(Gate::allows('change-status', $candidate))
         {
             $from = $candidate->status->id;
-            if(!Status::allowed($from,$sid)) return redirect('candidates');        
+            if(!Status::allowed($from,$sid)) return redirect('candidates');
             $candidate->status_id = $sid;
             $candidate->save();
         }else{
@@ -64,7 +64,7 @@ class CandidatesController extends Controller
         }
         return back();
         //return redirect('candidates');
-    }          
+    }
 
 
     /**
@@ -86,7 +86,7 @@ class CandidatesController extends Controller
     public function store(Request $request)
     {
         $candidate = new Candidate();
-        //$candidate->name = $request->name; 
+        //$candidate->name = $request->name;
         //$candidate->email = $request->email;
         $can = $candidate->create($request->all());
         $can->status_id = 1;
@@ -128,10 +128,10 @@ class CandidatesController extends Controller
     {
        $candidate = Candidate::findOrFail($id);
        $candidate->update($request->all());
-       return redirect('candidates');  
+       return redirect('candidates');
     }
 
-    
+
 
     /**
      * Remove the specified resource from storage.
@@ -142,7 +142,7 @@ class CandidatesController extends Controller
     public function destroy($id)
     {
         $candidate = Candidate::findOrFail($id);
-        $candidate->delete(); 
-        return redirect('candidates'); 
+        $candidate->delete();
+        return redirect('candidates');
     }
 }

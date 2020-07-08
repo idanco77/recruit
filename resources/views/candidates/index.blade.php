@@ -24,7 +24,7 @@
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @if(isset($candidate->user_id))
-                          {{$candidate->owner->name}}  
+                          {{$candidate->owner->name}}
                         @else
                           Assign owner
                         @endif
@@ -34,11 +34,11 @@
                       <a class="dropdown-item" href="{{route('candidate.changeuser',[$candidate->id,$user->id])}}">{{$user->name}}</a>
                     @endforeach
                     </div>
-                  </div>                
+                  </div>
             </td>
             <td>
                 <div class="dropdown">
-                    @if (null != App\Status::next($candidate->status_id))    
+                    @if (null != App\Status::next($candidate->status_id))
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @if (isset($candidate->status_id))
                            {{$candidate->status->name}}
@@ -46,27 +46,31 @@
                             Define status
                         @endif
                     </button>
-                    @else 
-                    {{$candidate->status->name}}
+                    @else
+                        @if (isset($candidate->status_id))
+                            {{$candidate->status->name}}
+                        @else
+                            Define status
+                        @endif
                     @endif
-                                                   
+
                     @if (App\Status::next($candidate->status_id) != null )
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                         @foreach(App\Status::next($candidate->status_id) as $status)
                          <a class="dropdown-item" href="{{route('candidates.changestatus', [$candidate->id,$status->id])}}">{{$status->name}}</a>
-                        @endforeach                               
+                        @endforeach
                     </div>
                     @endif
-                </div>                            
-            </td>                             
+                </div>
+            </td>
             <td>{{$candidate->created_at}}</td>
             <td>{{$candidate->updated_at}}</td>
             <td>
                 <a href = "{{route('candidates.edit',$candidate->id)}}">Edit</a>
-            </td> 
+            </td>
             <td>
                     <a href = "{{route('candidate.delete',$candidate->id)}}">Delete</a>
-            </td>                                                               
+            </td>
         </tr>
     @endforeach
 </table>
